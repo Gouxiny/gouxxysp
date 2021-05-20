@@ -24,7 +24,6 @@
       return{
       username:'',
       password:''
-
       }
     }
   }
@@ -49,7 +48,7 @@
 
    }
   .site-page--login{
-    background: url("~@/assets/imgs/test5.jpeg") no-repeat;
+    background: url("~@/assets/imgs/loginimg.jpeg") no-repeat;
     background-position: center;
     background-size: cover;
     width: auto;
