@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Index from '@/components/views/index'
-import Login from '@/components/views/login/login'
-import Register from '@/components/views/register/register'
+import Index from '@/views/index'
+import Login from '@/views/login/login'
+import Register from '@/views/register/register'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -25,6 +26,10 @@ export default new Router({
       path:'/register',
       name:'register',
       component:Register
+    },{
+      path:'*',
+      name:'Helloworld',
+      component:Index
     }
   ]
 })

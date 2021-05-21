@@ -6,15 +6,14 @@
             <Form-item label="姓名" prop="name" style="width: 72%;">
                 <Input v-model="formValidate.name" placeholder="请输入姓名"></Input>
             </Form-item>
+            <Form-item label="用户名" prop="username" style="width: 72%;">
+                <Input v-model="formValidate.username" placeholder="请输入用户名"></Input>
+            </Form-item>
+            <Form-item label="密码" prop="password" style="width: 72%;">
+                <Input v-model="formValidate.password" placeholder="请输入密码"></Input>
+            </Form-item>
             <Form-item label="邮箱" prop="mail" style="width: 72%;">
                 <Input v-model="formValidate.mail" placeholder="请输入邮箱"></Input>
-            </Form-item>
-            <Form-item label="城市" prop="city" style="width: 72%;">
-                <Select v-model="formValidate.city" placeholder="请选择所在地">
-                    <Option value="beijing">北京市</Option>
-                    <Option value="shanghai">上海市</Option>
-                    <Option value="shenzhen">深圳市</Option>
-                </Select>
             </Form-item>
            <Form-item label="性别" prop="gender" style="width: 72%;">
                 <Radio-group v-model="formValidate.gender">
@@ -22,19 +21,11 @@
                     <Radio label="female">女</Radio>
                 </Radio-group>
             </Form-item>
-            <Form-item label="爱好" prop="interest" style="width: 72%;">
-                <Checkbox-group v-model="formValidate.interest">
-                    <Checkbox label="吃饭"></Checkbox>
-                    <Checkbox label="睡觉"></Checkbox>
-                    <Checkbox label="跑步"></Checkbox>
-                    <Checkbox label="看电影"></Checkbox>
-                </Checkbox-group>
-            </Form-item>
             <Form-item label="介绍" prop="desc" style="width: 72%;">
                 <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
             </Form-item>
             <Form-item style="width: 72%;">
-                <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
+                <Button type="primary" @click="handleSubmit('formValidate')" >提交</Button>
                 <Button type="primary" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
             </Form-item>
           </Form>
@@ -50,16 +41,20 @@
           formValidate: {
               name: '',
               mail: '',
-              city: '',
+              username: '',
+              password:'',
               gender: '',
-              interest: [],
-              date: '',
-              time: '',
               desc: ''
           },
           ruleValidate: {
               name: [
                   { required: true, message: '姓名不能为空', trigger: 'blur' }
+              ],
+              username:[
+                {required:true,message:'用户名不能为空',trigger:'blur'}
+              ],
+              password:[
+                {required:true,message:'密码不能为空',trigger:'blur'}
               ],
               mail: [
                   { required: true, message: '邮箱不能为空', trigger: 'blur' },
@@ -70,16 +65,6 @@
               ],
               gender: [
                   { required: true, message: '请选择性别', trigger: 'change' }
-              ],
-              interest: [
-                  { required: true, type: 'array', min: 1, message: '至少选择一个爱好', trigger: 'change' },
-                  { type: 'array', max: 2, message: '最多选择两个爱好', trigger: 'change' }
-              ],
-              date: [
-                  { required: true, type: 'date', message: '请选择日期', trigger: 'change' }
-              ],
-              time: [
-                  { required: true, type: 'date', message: '请选择时间', trigger: 'change' }
               ],
               desc: [
                   { required: true, message: '请输入个人介绍', trigger: 'blur' },
@@ -92,6 +77,15 @@
           handleSubmit (name) {
               this.$refs[name].validate((valid) => {
                   if (valid) {
+                      GXY.Util.invokeServer({
+                        path:"/register",
+                        type:'post',
+                        data:JSON.stringify(this.formValidate),
+                        contentType:"application/json",
+                      }).then((data) => {
+
+                      });
+                      document.location.href="http://127.0.0.1:8080/index"
                       this.$Message.success('提交成功!');
                   } else {
                       this.$Message.error('表单验证失败!');
